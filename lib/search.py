@@ -1,12 +1,11 @@
-import files from lib.store.files
-import filesInFolder from lib.store.filesInFolder
+from lib.store.files import files
+from lib.store.filesInFolder import filesInFolder
 
 class search:
-    def __init__(self, path):
+    def __init__(self):
         self.filesIntented = files(None)
         self.filesFound = files(None)
-        filesInFolder = filesInFolder(path)
-        self.filesPretended = filesInFolder.getFiles()
+        self.filesPretended = files(None)
 
     """
     Get the files found
@@ -15,8 +14,10 @@ class search:
         for pretended in self.filesPretended:
             with open(pretended, 'r') as file:
                 content = file.read()
-                for filesIntented in self.filesIntented:
-                    if filesIntented in content:
+                for fIntented in self.filesIntented:
+                    filename = os.path.basename(fIntented)
+                    dot_position = filename.rfind('.')
+                    if filename in content or fIntented[:dot_position] in content:
                         self.filesFound.add(pretended)
 
     """
@@ -48,3 +49,11 @@ class search:
     """
     def getFilesNotFound(self):
         return self.filesIntented - self.filesFound
+
+    """
+    Set and search all files in folder
+    """
+    def setFilesInFolder(self, path):
+        ffolder = filesInFolder(path)
+        ffolder.find()
+        self.filesPretended = ffolder.getFiles()

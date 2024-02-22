@@ -1,8 +1,8 @@
-import files from lib.store.files
+from lib.store.files import files
 import os
 
 class filesInFolder:
-    def __init__(self, path)
+    def __init__(self, path):
         self.files = files(None)
         self.path = path
         self.find()
@@ -10,7 +10,7 @@ class filesInFolder:
     """
     Find recusively all files in the folder and inside of other folders
     """
-    def find(self, path):
+    def find(self, path=None):
         path = path if path is not None else self.path
 
         for file in os.listdir(self.path):
